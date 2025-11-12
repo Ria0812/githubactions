@@ -1,0 +1,29 @@
+name: CI  # Name of your workflow (shows in Actions tab)
+
+on:
+  push:
+    branches: [ "main" ]  # Run this workflow when you push to main branch
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Tells GitHub to use a Linux environment
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4  # This pulls your repo’s code into the runner
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"  # You can change to another version later
+
+      - name: Install dependencies
+        run: npm install  # Installs everything from your package.json
+
+      - name: Build project
+        run: npm run build  # Runs your build command
+
+      - name: List files after build
+        run: ls -R dist || echo "No dist folder found"
